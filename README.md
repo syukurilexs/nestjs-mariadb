@@ -46,8 +46,26 @@ Inject `PoolService`:
 export class YourService {
   constructor(private readonly pool: PoolService) {}
 
-  show() {
+  method1() {
+    // For single query just use this method, it will auto release
+    // after use
     return this.pool.query('select * from mydb.mytable');
+  }
+
+  method2() {
+    // Create connection
+    const conn = await this.pool.getConnection();
+
+    // Use created connection
+    const rows = await conn.query('select * from syukur.mytable');
+
+    // Re-use existing connection
+    const rows2 = await conn.query('select * from syukur.mytable');
+
+    // Release connection to pool after use
+    conn.release();
+
+    return [rows,rows2];
   }
 }
 ```
