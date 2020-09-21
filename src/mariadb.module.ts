@@ -1,8 +1,9 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { CONFIG_OPTIONS } from './constants';
 import { MariadbModuleOption } from './interfaces/mariadb-option';
 import { PoolService } from './mariadb.service';
 
+@Global()
 @Module({})
 export class MariadbModule {
   static forRoot(options: MariadbModuleOption): DynamicModule {
