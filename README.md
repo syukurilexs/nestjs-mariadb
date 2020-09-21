@@ -51,11 +51,7 @@ export class YourService {
   }
 }
 ```
-
-In order to use this package you need to create **config** folder on your root directory and then create your **.env** file
-- development.env
-- production.env
-
+This module is ***Gloabl Module***
 ## Change Log
 
 See [Changelog](CHANGELOG.md) for more information.
