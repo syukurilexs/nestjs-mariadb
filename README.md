@@ -6,7 +6,7 @@
   </a>
 </div>
 
-<h3 align="center">NestJS Custom Config Package (simple config service)</h3>
+<h3 align="center">NestJS MariaDb (using official <b>mariadb</b> module)</h3>
 
 <div align="center">
   <a href="https://nestjs.com" target="_blank">
