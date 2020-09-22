@@ -13,6 +13,8 @@ export class PoolService {
       user: options.user,
       password: options.password,
       connectionLimit: options.connectionLimit,
+      port: options.port,
+      connectTimeout: options.connectTimeout,
     });
   }
 

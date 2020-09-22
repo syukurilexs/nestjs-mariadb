@@ -1,6 +1,6 @@
 {
   "name": "@syukurilexs/nestjs-mariadb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "NestJS npm package for mariadb",
   "author": "Syukur Md Kassim <syukurilexs@gmail.com>",
   "license": "MIT",

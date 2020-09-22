@@ -3,4 +3,6 @@ export interface MariadbModuleOption {
      user: string;
      password: string;
      connectionLimit: number;
+     port?: number;
+     connectTimeout?: number;
 }
