@@ -1,8 +1,6 @@
-// export public api from here
-// for example:
-// export * from './decorators';
-export * from './interfaces/mariadb-option';
-export * from './constants';
+/**
+ * Author: Syukur Md Kassim (syukurilexs@gmail.com)
+ */
 export * from './mariadb.module';
-export * from './mariadb.service'
-
+export * from './mariadb.decorator';
+export * from './mariadb.provider';

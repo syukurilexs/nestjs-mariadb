@@ -1,22 +1,19 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
-import { CONFIG_OPTIONS } from './constants';
-import { MariadbModuleOption } from './interfaces/mariadb-option';
-import { PoolService } from './mariadb.service';
+import { createMariadbProvider, PoolConfig } from './mariadb.provider';
 
 @Global()
 @Module({})
 export class MariadbModule {
-  static forRoot(options: MariadbModuleOption): DynamicModule {
+  static forRoot(
+    options: PoolConfig,
+    poolName: string = '',
+  ): DynamicModule {
+    const mariadbProvider = createMariadbProvider(options, poolName);
+
     return {
       module: MariadbModule,
-      providers: [
-        {
-          provide: CONFIG_OPTIONS,
-          useValue: options,
-        },
-        PoolService,
-      ],
-      exports: [PoolService]
+      providers: [mariadbProvider],
+      exports: [mariadbProvider],
     };
   }
 }

@@ -20,7 +20,7 @@
 npm install @syukurilexs/nestjs-mariadb
 ```
 
-## Usage
+## Usage Single Database
 
 Import `MariadbModule`:
 
@@ -30,7 +30,7 @@ Import `MariadbModule`:
     MariadbModule.forRoot({
       host: 'localhost',
       user: 'root',
-      password: 'yourpassowrd',
+      password: 'yourpassword',
       connectionLimit: 5
     })
   ],
@@ -39,12 +39,12 @@ Import `MariadbModule`:
 export class AppModule {}
 ```
 
-Inject `PoolService`:
+Inject `Pool`:
 
 ```typescript
 @Injectable()
 export class YourService {
-  constructor(private readonly pool: PoolService) {}
+  constructor(@Mariadb() private readonly pool: Pool) {}
 
   method1() {
     // For single query just use this method, it will auto release
@@ -52,9 +52,76 @@ export class YourService {
     return this.pool.query('select * from mydb.mytable');
   }
 
-  method2() {
+  async method2() {
     // Create connection
     const conn = await this.pool.getConnection();
+
+    // Use created connection
+    const rows = await conn.query('select * from syukur.mytable');
+
+    // Re-use existing connection
+    const rows2 = await conn.query('select * from syukur.mytable');
+
+    // Release connection to pool after use
+    conn.release();
+
+    return [rows,rows2];
+  }
+}
+```
+## Usage Multiple Databases
+
+Import `MariadbModule`:
+
+```typescript
+@Module({
+  imports: [
+    MariadbModule.forRoot(
+      {
+        host: 'server01',
+        user: 'root',
+        password: 'yourpassword',
+        connectionLimit: 5
+      },
+      'DATABASE_ONE'
+    ),
+    MariadbModule.forRoot(
+      {
+        host: 'server02',
+        user: 'root',
+        password: 'yourpassword',
+        connectionLimit: 5
+      },
+      'DATABASE_TWO'
+    )
+  ],
+  providers: [...],
+})
+export class AppModule {}
+```
+
+Inject `Pool`:
+
+```typescript
+@Injectable()
+export class YourService {
+  constructor(
+    @Mariadb('DATABASE_ONE') private readonly poolOne: Pool,
+    @Mariadb('DATABASE_TWO') private readonly poolTwo: Pool
+  ) {}
+
+  method1() {
+    // For single query just use this method, it will auto release
+    // after use
+    const one$ = this.poolOne.query('select * from mydb.mytable');
+    const two$ = this.poolTwo.query('select * from mydb.mytable');
+
+    return Promise.all([one$,two$]);
+  }
+
+  async method2() {
+    // Create connection
+    const conn = await this.poolOne.getConnection();
 
     // Use created connection
     const rows = await conn.query('select * from syukur.mytable');
