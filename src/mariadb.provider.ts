@@ -1,16 +1,31 @@
 import * as mariadb from 'mariadb';
 import { Provider } from '@nestjs/common';
-
-export type PoolConfig = mariadb.PoolConfig;
-export type Pool = mariadb.Pool;
+import { MariadbModuleAsyncOption, Pool, PoolConfig } from './interfaces/mariadb-async-option';
 
 export function createMariadbProvider(
   options: PoolConfig,
   poolName: string,
-): Provider<mariadb.Pool> {
+): Provider<Pool> {
   return {
     provide: `Mariadb${poolName}`,
-    useFactory: (): mariadb.Pool =>
-      mariadb.createPool(options),
+    useFactory: (): Pool => mariadb.createPool(options),
   };
+}
+
+export function createMariadbAsyncProvider(
+  options: MariadbModuleAsyncOption,
+  poolName: string,
+): Provider[] {
+  return [
+    {
+      provide: `Mariadb${poolName}`,
+      useFactory: (x: PoolConfig): mariadb.Pool => mariadb.createPool(x),
+      inject: ['MARIADB_MODULE_OPTIONS'],
+    },
+    {
+      provide: 'MARIADB_MODULE_OPTINOS',
+      useFactory: options.useFactory,
+      inject: options.inject || [],
+    },
+  ];
 }

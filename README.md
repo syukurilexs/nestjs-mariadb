@@ -65,10 +65,11 @@ export class YourService {
     // Release connection to pool after use
     conn.release();
 
-    return [rows,rows2];
+    return [rows, rows2];
   }
 }
 ```
+
 ## Usage Multiple Databases
 
 Import `MariadbModule`:
@@ -116,7 +117,7 @@ export class YourService {
     const one$ = this.poolOne.query('select * from mydb.mytable');
     const two$ = this.poolTwo.query('select * from mydb.mytable');
 
-    return Promise.all([one$,two$]);
+    return Promise.all([one$, two$]);
   }
 
   async method2() {
@@ -132,11 +133,91 @@ export class YourService {
     // Release connection to pool after use
     conn.release();
 
-    return [rows,rows2];
+    return [rows, rows2];
   }
 }
 ```
-This module is ***Gloabl Module***
+
+## Usage Multiple Databases Asyn
+
+Import `MariadbModule`:
+
+```typescript
+@Module({
+  imports: [
+    MariadbModule.forRoot(
+      {
+        imports: [ConfigModule],
+        useFactory: (config: ConfigService) => ({
+          host: config.get('HOST_ONE'),
+          user: 'admin',
+          password: 'password',
+          connectionLimit: 5,
+          port: Number(config.get('PORT_ONE')),
+        }),
+        inject: [ConfigService],
+      },
+      'DATABASE_ONE'
+    ),
+    MariadbModule.forRoot(
+      {
+        imports: [ConfigModule],
+        useFactory: (config: ConfigService) => ({
+          host: config.get('HOST_TWO'),
+          user: 'admin',
+          password: 'password',
+          connectionLimit: 5,
+          port: Number(config.get('PORT_ONE')),
+        }),
+        inject: [ConfigService],
+      },
+      'DATABASE_TWO'
+    )
+  ],
+  providers: [...],
+})
+export class AppModule {}
+```
+
+Inject `Pool`:
+
+```typescript
+@Injectable()
+export class YourService {
+  constructor(
+    @Mariadb('DATABASE_ONE') private readonly poolOne: Pool,
+    @Mariadb('DATABASE_TWO') private readonly poolTwo: Pool
+  ) {}
+
+  method1() {
+    // For single query just use this method, it will auto release
+    // after use
+    const one$ = this.poolOne.query('select * from mydb.mytable');
+    const two$ = this.poolTwo.query('select * from mydb.mytable');
+
+    return Promise.all([one$, two$]);
+  }
+
+  async method2() {
+    // Create connection
+    const conn = await this.poolOne.getConnection();
+
+    // Use created connection
+    const rows = await conn.query('select * from syukur.mytable');
+
+    // Re-use existing connection
+    const rows2 = await conn.query('select * from syukur.mytable');
+
+    // Release connection to pool after use
+    conn.release();
+
+    return [rows, rows2];
+  }
+}
+```
+
+This module is **_Gloabl Module_**
+
 ## Change Log
 
 See [Changelog](CHANGELOG.md) for more information.
