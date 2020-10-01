@@ -23,7 +23,7 @@ export function createMariadbAsyncProvider(
       inject: ['MARIADB_MODULE_OPTIONS'],
     },
     {
-      provide: 'MARIADB_MODULE_OPTINOS',
+      provide: 'MARIADB_MODULE_OPTIONS',
       useFactory: options.useFactory,
       inject: options.inject || [],
     },
