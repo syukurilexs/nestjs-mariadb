@@ -1,3 +1,6 @@
+RELEASE 2.0.0
+* Update base on Nest 7.X.X
+
 RELEASE 1.2.0
 * Fixed typo of provider
 
