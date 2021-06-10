@@ -14,7 +14,11 @@
   </a>
 </div>
 
-### Installation
+## Description
+
+This module is Global type of module
+
+## Installation
 
 ```bash
 npm install @syukurilexs/nestjs-mariadb
@@ -25,6 +29,9 @@ npm install @syukurilexs/nestjs-mariadb
 Import `MariadbModule`:
 
 ```typescript
+
+import { MariadbModule } from '@syukurilexs/nestjs-mariadb';
+
 @Module({
   imports: [
     MariadbModule.forRoot({
@@ -75,6 +82,9 @@ export class YourService {
 Import `MariadbModule`:
 
 ```typescript
+
+import { MariadbModule } from '@syukurilexs/nestjs-mariadb';
+
 @Module({
   imports: [
     MariadbModule.forRoot(
@@ -143,6 +153,9 @@ export class YourService {
 Import `MariadbModule`:
 
 ```typescript
+
+import { MariadbModule } from '@syukurilexs/nestjs-mariadb';
+
 @Module({
   imports: [
     MariadbModule.forRoot(
