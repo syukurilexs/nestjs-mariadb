@@ -1,4 +1,7 @@
 RELEASE 4.0.0
+* Update mariadb library to version 3.0.2
+
+RELEASE 4.0.0
 * Update base on Nest 9.X.X
 
 RELEASE 3.0.0

@@ -1,6 +1,6 @@
 {
   "name": "@syukurilexs/nestjs-mariadb",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "NestJS npm package for mariadb",
   "author": "Syukur Md Kassim <syukurilexs@gmail.com>",
   "license": "MIT",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
-    "mariadb": "^2.4.2",
+    "mariadb": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.6.0"
   },
