@@ -1,3 +1,6 @@
+RELEASE 4.0.0
+* Update base on Nest 9.X.X
+
 RELEASE 3.0.0
 * Update base on Nest 8.X.X
 
